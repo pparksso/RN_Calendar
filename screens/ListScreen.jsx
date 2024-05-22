@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
+import { View, Text } from "react-native";
 
 const ListScreen = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+  return (
+    <View>
+      <Text>list</Text>
+    </View>
+  );
 };
 
 export default ListScreen;

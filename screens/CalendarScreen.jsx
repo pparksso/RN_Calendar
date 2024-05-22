@@ -1,11 +1,21 @@
-import React from 'react';
+import React from "react";
+import { View, Text } from "react-native";
 
 const CalendarScreen = () => {
-    return (
-        <div>
-            
-        </div>
-    );
+  return (
+    <View>
+      <Text>calendar</Text>
+      <Text>calendar</Text>
+      <Text>calendar</Text>
+      <Text>calendar</Text>
+      <Text>calendar</Text>
+      <Text>calendar</Text>
+      <Text>calendar</Text>
+      <Text>calendar</Text>
+      <Text>calendar</Text>
+      <Text>calendar</Text>
+    </View>
+  );
 };
 
 export default CalendarScreen;
