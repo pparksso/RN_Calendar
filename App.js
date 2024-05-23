@@ -11,10 +11,10 @@ export default function App() {
   return (
     <>
       <StatusBar />
-      <SafeAreaView>
+      <SafeAreaView style={styles.container}>
         <Header />
         <NavigationContainer>
-          <Stack.Navigator>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="List" component={ListScreen} />
             <Stack.Screen name="Calendar" component={CalendarScreen} />
           </Stack.Navigator>
@@ -27,8 +27,5 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
   },
 });

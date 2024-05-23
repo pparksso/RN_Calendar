@@ -3,12 +3,21 @@ import { View, Text, StyleSheet } from "react-native";
 
 const Header = () => {
   return (
-    <View>
-      <Text>Today's Check</Text>
+    <View style={styles.header}>
+      <Text style={styles.title}>Today's Check</Text>
     </View>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  header: {
+    paddingVertical: 20,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "700",
+    textAlign: "center",
+  },
+});
 
 export default Header;
