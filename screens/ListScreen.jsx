@@ -8,12 +8,14 @@ const ListScreen = () => {
     <Section>
       <TitleCard>
         <View style={styles.titleContainer}>
-          <Image style={styles.addImg} source={require("../assets/images/plus.png")} />
+          <Pressable style={styles.addBtn}>
+            <Image style={styles.addImg} source={require("../assets/images/plus.png")} />
+          </Pressable>
           <View style={styles.dateContainer}>
             <Pressable style={styles.calendarBtn}>
-              <Image style={styles.calendarImg} />
+              <Image style={styles.calendarImg} source={require("../assets/images/calendar.png")} />
             </Pressable>
-            <Text style={styles.dateText}></Text>
+            <Text style={styles.dateText}>2024.04.09</Text>
           </View>
         </View>
       </TitleCard>
@@ -25,17 +27,25 @@ const ListScreen = () => {
 const styles = StyleSheet.create({
   titleContainer: {
     flex: 1,
-    alignItems: "stretch",
-    borderWidth: 1,
-    borderColor: "#000",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
+  addBtn: {},
   addImg: {
     width: 40,
     height: 40,
   },
-  dateContainer: {},
-  calendarBtn: {},
-  calendarImg: {},
+  dateContainer: {
+    justifyContent: "center",
+  },
+  calendarBtn: {
+    alignItems: "center",
+  },
+  calendarImg: {
+    width: 30,
+    height: 30,
+  },
   dateText: {},
 });
 
