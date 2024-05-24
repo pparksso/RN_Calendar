@@ -7,22 +7,36 @@ const ListScreen = () => {
   return (
     <Section>
       <TitleCard>
-        <View>
-          <Image />
-          <View>
-            <Pressable>
-              <Image />
+        <View style={styles.titleContainer}>
+          <Image style={styles.addImg} source={require("../assets/images/plus.png")} />
+          <View style={styles.dateContainer}>
+            <Pressable style={styles.calendarBtn}>
+              <Image style={styles.calendarImg} />
             </Pressable>
-            <Text></Text>
+            <Text style={styles.dateText}></Text>
           </View>
         </View>
-        <Text>title</Text>
       </TitleCard>
       <Text>list</Text>
     </Section>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  titleContainer: {
+    flex: 1,
+    alignItems: "stretch",
+    borderWidth: 1,
+    borderColor: "#000",
+  },
+  addImg: {
+    width: 40,
+    height: 40,
+  },
+  dateContainer: {},
+  calendarBtn: {},
+  calendarImg: {},
+  dateText: {},
+});
 
 export default ListScreen;
