@@ -2,6 +2,7 @@ import React from "react";
 import { View, Image, Pressable, Text, StyleSheet } from "react-native";
 import Section from "../components/ui/Section";
 import TitleCard from "../components/ui/TitleCard";
+import Item from "../components/Item";
 
 const ListScreen = () => {
   return (
@@ -19,7 +20,10 @@ const ListScreen = () => {
           </View>
         </View>
       </TitleCard>
-      <Text>list</Text>
+      <View style={styles.listContainer}>
+        <Item checked={true} />
+        <Item />
+      </View>
     </Section>
   );
 };
@@ -47,6 +51,10 @@ const styles = StyleSheet.create({
     height: 30,
   },
   dateText: {},
+  listContainer: {
+    paddingVertical: 30,
+    paddingHorizontal: 20,
+  },
 });
 
 export default ListScreen;
