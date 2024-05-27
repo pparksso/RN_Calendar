@@ -15,8 +15,8 @@ export default function App() {
         <Header />
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="List" component={ListScreen} />
             <Stack.Screen name="Calendar" component={CalendarScreen} />
+            <Stack.Screen name="List" component={ListScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </SafeAreaView>
