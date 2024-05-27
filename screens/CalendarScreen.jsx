@@ -11,6 +11,14 @@ const CalendarScreen = () => {
     setIsDateModal(true);
   };
 
+  const closeModalHandler = () => {
+    setIsDateModal(false);
+  };
+
+  const confirmMonthHandler = () => {
+    console.log("confirm");
+  };
+
   return (
     <>
       <Section>
@@ -30,7 +38,11 @@ const CalendarScreen = () => {
           <Text>calendar</Text>
         </View>
       </Section>
-      <MonthModal visible={isDateModal} />
+      <MonthModal
+        visible={isDateModal}
+        confirm={confirmMonthHandler}
+        close={closeModalHandler}
+      />
     </>
   );
 };

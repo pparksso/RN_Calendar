@@ -4,16 +4,29 @@ import Section from "../components/ui/Section";
 import TitleCard from "../components/ui/TitleCard";
 import Item from "../components/Item";
 import AddModal from "../components/modal/AddModal";
+import { useNavigation } from "@react-navigation/native";
 
 const ListScreen = () => {
+  const navigation = useNavigation();
+
   const [isModal, setIsModal] = useState(false);
 
   const openModalHandler = () => {
     setIsModal(true);
   };
 
+  const saveHandler = () => {
+    // console.log("save");
+  };
+
   const closeModalHandler = () => {
     setIsModal(false);
+  };
+
+  const goCalendarHandler = () => {
+    navigation.navigate("Calendar", {
+      // params 전달
+    });
   };
 
   return (
@@ -27,7 +40,7 @@ const ListScreen = () => {
             />
           </Pressable>
           <View style={styles.dateContainer}>
-            <Pressable style={styles.calendarBtn}>
+            <Pressable style={styles.calendarBtn} onPress={goCalendarHandler}>
               <Image
                 style={styles.calendarImg}
                 source={require("../assets/images/calendar.png")}
@@ -41,7 +54,11 @@ const ListScreen = () => {
           <Item />
         </View>
       </Section>
-      <AddModal visible={isModal} close={closeModalHandler} />
+      <AddModal
+        visible={isModal}
+        save={saveHandler}
+        close={closeModalHandler}
+      />
     </>
   );
 };

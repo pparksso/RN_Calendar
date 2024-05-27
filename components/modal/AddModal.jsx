@@ -8,6 +8,7 @@ import {
   View,
 } from "react-native";
 import ModalCard from "../ui/ModalCard";
+import ModalBtnLayout from "../ui/ModalBtnLayout";
 
 const colors = [
   "#FF6347", // 토마토 (빨강)
@@ -20,7 +21,7 @@ const colors = [
 ];
 
 const AddModal = props => {
-  const { visible } = props;
+  const { visible, close, save } = props;
   return (
     <Modal visible={visible} animationType="fade" transparent={true}>
       <ModalCard>
@@ -33,14 +34,11 @@ const AddModal = props => {
             />
           ))}
         </View>
-        <View style={styles.btnBox}>
-          <Pressable style={styles.btn}>
-            <Text style={styles.btnTxt}>Save</Text>
-          </Pressable>
-          <Pressable style={styles.btn} onPress={props.close}>
-            <Text style={styles.btnTxt}>Cancle</Text>
-          </Pressable>
-        </View>
+        <ModalBtnLayout
+          confirmMsg="Save"
+          confirmFunc={save}
+          closeFunc={close}
+        />
       </ModalCard>
     </Modal>
   );
@@ -74,23 +72,6 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderRadius: 100,
-  },
-  btnBox: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 30,
-  },
-  btn: {
-    backgroundColor: "#333",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 3,
-    marginHorizontal: 10,
-  },
-  btnTxt: {
-    color: "#fff",
-    fontWeight: "700",
-    fontSize: 17,
   },
 });
 
