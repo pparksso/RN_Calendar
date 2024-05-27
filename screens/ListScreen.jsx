@@ -3,7 +3,7 @@ import { View, Image, Pressable, Text, StyleSheet } from "react-native";
 import Section from "../components/ui/Section";
 import TitleCard from "../components/ui/TitleCard";
 import Item from "../components/Item";
-import AddModal from "../components/AddModal";
+import AddModal from "../components/modal/AddModal";
 
 const ListScreen = () => {
   const [isModal, setIsModal] = useState(false);
@@ -21,11 +21,17 @@ const ListScreen = () => {
       <Section>
         <TitleCard>
           <Pressable style={styles.addBtn} onPress={openModalHandler}>
-            <Image style={styles.addImg} source={require("../assets/images/plus.png")} />
+            <Image
+              style={styles.addImg}
+              source={require("../assets/images/plus.png")}
+            />
           </Pressable>
           <View style={styles.dateContainer}>
             <Pressable style={styles.calendarBtn}>
-              <Image style={styles.calendarImg} source={require("../assets/images/calendar.png")} />
+              <Image
+                style={styles.calendarImg}
+                source={require("../assets/images/calendar.png")}
+              />
             </Pressable>
             <Text style={styles.dateText}>2024.04.09</Text>
           </View>

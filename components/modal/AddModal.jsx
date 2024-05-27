@@ -1,5 +1,13 @@
 import React from "react";
-import { Modal, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
+import ModalCard from "../ui/ModalCard";
 
 const colors = [
   "#FF6347", // 토마토 (빨강)
@@ -15,24 +23,25 @@ const AddModal = props => {
   const { visible } = props;
   return (
     <Modal visible={visible} animationType="fade" transparent={true}>
-      <View style={styles.modalContainer}>
-        <View style={styles.modalInner}>
-          <TextInput style={styles.input} autoFocus={true} maxLength={16} />
-          <View style={styles.colorBox}>
-            {colors.map((color, idx) => (
-              <Pressable key={idx} style={[styles.color, { backgroundColor: color }]} />
-            ))}
-          </View>
-          <View style={styles.btnBox}>
-            <Pressable style={styles.btn}>
-              <Text style={styles.btnTxt}>Save</Text>
-            </Pressable>
-            <Pressable style={styles.btn} onPress={props.close}>
-              <Text style={styles.btnTxt}>Cancle</Text>
-            </Pressable>
-          </View>
+      <ModalCard>
+        <TextInput style={styles.input} autoFocus={true} maxLength={16} />
+        <View style={styles.colorBox}>
+          {colors.map((color, idx) => (
+            <Pressable
+              key={idx}
+              style={[styles.color, { backgroundColor: color }]}
+            />
+          ))}
         </View>
-      </View>
+        <View style={styles.btnBox}>
+          <Pressable style={styles.btn}>
+            <Text style={styles.btnTxt}>Save</Text>
+          </Pressable>
+          <Pressable style={styles.btn} onPress={props.close}>
+            <Text style={styles.btnTxt}>Cancle</Text>
+          </Pressable>
+        </View>
+      </ModalCard>
     </Modal>
   );
 };
