@@ -99,7 +99,10 @@ const styles = StyleSheet.create({
     maxHeight: "40%",
     flexDirection: "row",
   },
-  selectList: { alignItems: "center", justifyContent: "center" },
+  selectList: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
   pickerItem: {
     fontSize: 24,
     height: 30,
