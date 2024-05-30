@@ -7,14 +7,19 @@ import CalendarScreen from "./screens/CalendarScreen";
 import Header from "./components/common/Header";
 
 const Stack = createStackNavigator();
+
 export default function App() {
   return (
     <>
       <StatusBar />
       <SafeAreaView style={styles.container}>
-        <Header />
         <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: true,
+              header: props => <Header {...props} />,
+            }}
+          >
             <Stack.Screen name="List" component={ListScreen} />
             <Stack.Screen name="Calendar" component={CalendarScreen} />
           </Stack.Navigator>
