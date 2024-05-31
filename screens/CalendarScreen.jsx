@@ -57,6 +57,9 @@ const CalendarScreen = () => {
                       <View style={styles.circle}></View>
                       <View style={styles.circle}></View>
                       <View style={styles.circle}></View>
+                      <View style={styles.circle}></View>
+                      <View style={styles.circle}></View>
+                      <View style={styles.circle}></View>
                     </View>
                   </View>
                 ))}
@@ -118,7 +121,7 @@ const styles = StyleSheet.create({
     borderColor: "#aaa",
   },
   daySquare: {
-    flexGrow: 1,
+    width: `${100 / 7}%`,
     padding: 3,
   },
   dayNum: {
@@ -127,7 +130,6 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
   circleContainer: {
-    flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
     alignContent: "flex-start",
@@ -137,7 +139,7 @@ const styles = StyleSheet.create({
     width: 15,
     height: 15,
     borderRadius: 100,
-    marginHorizontal: 1,
+    margin: 1,
   },
 });
 
