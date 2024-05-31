@@ -5,6 +5,8 @@ import Section from "../components/ui/Section";
 import MonthModal from "../components/modal/MonthModal";
 
 const weekly = ["월", "화", "수", "목", "금", "토", "일"];
+const week = Array(5).fill();
+const day = Array(7).fill(10);
 
 const CalendarScreen = () => {
   const [isDateModal, setIsDateModal] = useState(false);
@@ -36,10 +38,29 @@ const CalendarScreen = () => {
             />
           </Pressable>
         </TitleCard>
-        <View>
+        <View style={styles.calendar}>
           <View style={styles.calendarHeader}>
             {weekly.map(t => (
               <Text style={styles.weeklyText}>{t}</Text>
+            ))}
+          </View>
+          <View style={styles.dayContainer}>
+            {week.map(_ => (
+              <View style={styles.weekContainer}>
+                {day.map(_ => (
+                  <View style={styles.daySquare}>
+                    <Text style={styles.dayNum}>10</Text>
+                    <View style={styles.circleContainer}>
+                      <View style={styles.circle}></View>
+                      <View style={styles.circle}></View>
+                      <View style={styles.circle}></View>
+                      <View style={styles.circle}></View>
+                      <View style={styles.circle}></View>
+                      <View style={styles.circle}></View>
+                    </View>
+                  </View>
+                ))}
+              </View>
             ))}
           </View>
         </View>
@@ -73,9 +94,12 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
   },
+  calendar: {
+    flex: 1,
+  },
   calendarHeader: {
     flexDirection: "row",
-    paddingVertical: 10,
+    paddingVertical: 15,
     backgroundColor: "#ddd",
   },
   weeklyText: {
@@ -83,6 +107,37 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "600",
     fontSize: 17,
+  },
+  dayContainer: {
+    height: "100%",
+  },
+  weekContainer: {
+    flexDirection: "row",
+    flexGrow: 1,
+    borderBottomWidth: 1,
+    borderColor: "#aaa",
+  },
+  daySquare: {
+    flexGrow: 1,
+    padding: 3,
+  },
+  dayNum: {
+    textAlign: "right",
+    fontSize: 16,
+    fontWeight: "700",
+  },
+  circleContainer: {
+    flex: 1,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignContent: "flex-start",
+  },
+  circle: {
+    backgroundColor: "#000",
+    width: 15,
+    height: 15,
+    borderRadius: 100,
+    marginHorizontal: 1,
   },
 });
 
