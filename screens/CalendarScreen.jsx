@@ -4,6 +4,8 @@ import TitleCard from "../components/ui/TitleCard";
 import Section from "../components/ui/Section";
 import MonthModal from "../components/modal/MonthModal";
 
+const weekly = ["월", "화", "수", "목", "금", "토", "일"];
+
 const CalendarScreen = () => {
   const [isDateModal, setIsDateModal] = useState(false);
 
@@ -35,7 +37,11 @@ const CalendarScreen = () => {
           </Pressable>
         </TitleCard>
         <View>
-          <Text>calendar</Text>
+          <View style={styles.calendarHeader}>
+            {weekly.map(t => (
+              <Text style={styles.weeklyText}>{t}</Text>
+            ))}
+          </View>
         </View>
       </Section>
       <MonthModal
@@ -66,6 +72,17 @@ const styles = StyleSheet.create({
   arrowImg: {
     width: 20,
     height: 20,
+  },
+  calendarHeader: {
+    flexDirection: "row",
+    paddingVertical: 10,
+    backgroundColor: "#ddd",
+  },
+  weeklyText: {
+    flexGrow: 1,
+    textAlign: "center",
+    fontWeight: "600",
+    fontSize: 17,
   },
 });
 
