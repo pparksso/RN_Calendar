@@ -23,6 +23,29 @@ const CalendarScreen = () => {
     console.log("confirm");
   };
 
+  // 캘린더 함수 짜기... 일단 짜고 이후 리팩토링
+  const today = new Date();
+  const current = new Date();
+  const dateLoop = new Date();
+  const todayYear = today.getFullYear();
+  const todayMonth = today.getMonth();
+  const todayWeek = today.getDay();
+  const todayDate = today.getDate();
+
+  const makeCalendar = (year, month) => {
+    const thisMonthFirst = new Date(year, month - 1, 1);
+    const preMonthLast = new Date(year, month - 1, 0);
+    const thisMonthLast = new Date(year, month, 0);
+    const firstDay = thisMonthFirst.getDay();
+    const preLastDay = preMonthLast.getDay();
+    const thisLastDay = thisMonthLast.getDay();
+    const preLastDate = preMonthLast.getDate();
+    const thisLastDate = thisMonthLast.getDate();
+
+    if (preLastDay !== 0) {
+    }
+  };
+
   return (
     <>
       <Section>
@@ -41,14 +64,16 @@ const CalendarScreen = () => {
         <View style={styles.calendar}>
           <View style={styles.calendarHeader}>
             {weekly.map(t => (
-              <Text style={styles.weeklyText}>{t}</Text>
+              <Text style={styles.weeklyText} key={t}>
+                {t}
+              </Text>
             ))}
           </View>
           <View style={styles.dayContainer}>
             {week.map(_ => (
-              <View style={styles.weekContainer}>
-                {day.map(_ => (
-                  <View style={styles.daySquare}>
+              <View style={styles.weekContainer} key={_}>
+                {day.map(__ => (
+                  <View style={styles.daySquare} key={__}>
                     <Text style={styles.dayNum}>10</Text>
                     <View style={styles.circleContainer}>
                       <View style={styles.circle}></View>
