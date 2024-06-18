@@ -9,6 +9,11 @@ import { useNavigation } from "@react-navigation/native";
 const ListScreen = () => {
   const navigation = useNavigation();
 
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const date = today.getDate();
+
   const [isModal, setIsModal] = useState(false);
 
   const openModalHandler = () => {
@@ -46,7 +51,11 @@ const ListScreen = () => {
                 source={require("../assets/images/calendar.png")}
               />
             </Pressable>
-            <Text style={styles.dateText}>2024.04.09</Text>
+            <Text style={styles.dateText}>
+              {`${year}.${month.toString().padStart(2, "0")}.${date
+                .toString()
+                .padStart(2, "0")}`}
+            </Text>
           </View>
         </TitleCard>
         <View style={styles.listContainer}>

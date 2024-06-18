@@ -1,14 +1,20 @@
-import React, { useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Pressable, Image, StyleSheet } from "react-native";
 import TitleCard from "../components/ui/TitleCard";
 import Section from "../components/ui/Section";
 import MonthModal from "../components/modal/MonthModal";
 
 const weekly = ["월", "화", "수", "목", "금", "토", "일"];
-const week = Array(5).fill();
-const day = Array(7).fill(10);
 
 const CalendarScreen = () => {
+  const today = new Date();
+  const nowYear = today.getFullYear();
+  const nowMonth = today.getMonth();
+
+  const [dateArr, setDateArr] = useState([]);
+  const [year, setYear] = useState(nowYear);
+  const [month, setMonth] = useState(nowMonth);
+
   const [isDateModal, setIsDateModal] = useState(false);
 
   const openModalHandler = () => {
@@ -23,37 +29,52 @@ const CalendarScreen = () => {
     console.log("confirm");
   };
 
-  // 캘린더 함수 짜기... 일단 짜고 이후 리팩토링
-  const today = new Date();
-  const current = new Date();
-  const dateLoop = new Date();
-  const todayYear = today.getFullYear();
-  const todayMonth = today.getMonth();
-  const todayWeek = today.getDay();
-  const todayDate = today.getDate();
-
-  const makeCalendar = (year, month) => {
-    const thisMonthFirst = new Date(year, month - 1, 1);
-    const preMonthLast = new Date(year, month - 1, 0);
-    const thisMonthLast = new Date(year, month, 0);
-    const firstDay = thisMonthFirst.getDay();
+  const makeCalendar = (year, monthIdx) => {
+    let preMonth = [];
+    let nextMonth = [];
+    let thisMonth = [];
+    const preMonthLast = new Date(year, monthIdx, 0);
+    const thisMonthLast = new Date(year, monthIdx + 1, 0);
     const preLastDay = preMonthLast.getDay();
     const thisLastDay = thisMonthLast.getDay();
     const preLastDate = preMonthLast.getDate();
     const thisLastDate = thisMonthLast.getDate();
 
+    const generateMonthArray = (start, end) => {
+      const result = [];
+      for (let i = start; i <= end; i++) {
+        result.push({ date: i, colors: [] });
+      }
+      return result;
+    };
+
     if (preLastDay !== 0) {
+      preMonth.push(
+        ...generateMonthArray(preLastDate - preLastDay + 1, preLastDate),
+      );
+      nextMonth.push(...generateMonthArray(1, thisLastDate - thisLastDay));
     }
+    thisMonth.push(...generateMonthArray(1, thisLastDate));
+
+    const calendarNums = [...preMonth, ...thisMonth, ...nextMonth];
+    let weekArr = [];
+    for (let i = 0; i < 35; i += 7) {
+      weekArr.push(calendarNums.slice(i, i + 7));
+    }
+    return weekArr;
   };
 
+  useEffect(() => {
+    setDateArr(makeCalendar(nowYear, nowMonth));
+  }, [nowYear, nowMonth]);
   return (
     <>
       <Section>
         <TitleCard>
           <Pressable style={styles.dropDownBtn} onPress={openModalHandler}>
             <View style={styles.dropDownVal}>
-              <Text style={styles.year}>2024</Text>
-              <Text style={styles.month}>3월</Text>
+              <Text style={styles.year}>{year}</Text>
+              <Text style={styles.month}>{month + 1}월</Text>
             </View>
             <Image
               source={require("../assets/images/arrow-down.png")}
@@ -70,26 +91,21 @@ const CalendarScreen = () => {
             ))}
           </View>
           <View style={styles.dayContainer}>
-            {week.map(_ => (
-              <View style={styles.weekContainer} key={_}>
-                {day.map(__ => (
-                  <View style={styles.daySquare} key={__}>
-                    <Text style={styles.dayNum}>10</Text>
-                    <View style={styles.circleContainer}>
-                      <View style={styles.circle}></View>
-                      <View style={styles.circle}></View>
-                      <View style={styles.circle}></View>
-                      <View style={styles.circle}></View>
-                      <View style={styles.circle}></View>
-                      <View style={styles.circle}></View>
-                      <View style={styles.circle}></View>
-                      <View style={styles.circle}></View>
-                      <View style={styles.circle}></View>
+            {dateArr.length > 0 &&
+              dateArr.map((w, i) => (
+                <View style={styles.weekContainer} key={i}>
+                  {w.map((date, idx) => (
+                    <View style={styles.daySquare} key={idx}>
+                      <Text style={styles.dayNum}>{date.date}</Text>
+                      <View style={styles.circleContainer}>
+                        {date.colors.map((color, cIdx) => (
+                          <View style={styles.circle} key={cIdx}></View>
+                        ))}
+                      </View>
                     </View>
-                  </View>
-                ))}
-              </View>
-            ))}
+                  ))}
+                </View>
+              ))}
           </View>
         </View>
       </Section>
@@ -127,7 +143,7 @@ const styles = StyleSheet.create({
   },
   calendarHeader: {
     flexDirection: "row",
-    paddingVertical: 15,
+    paddingVertical: 10,
     backgroundColor: "#ddd",
   },
   weeklyText: {
