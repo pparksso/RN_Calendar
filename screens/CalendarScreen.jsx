@@ -113,6 +113,8 @@ const CalendarScreen = () => {
         visible={isDateModal}
         confirm={confirmMonthHandler}
         close={closeModalHandler}
+        year={year}
+        month={month}
       />
     </>
   );
