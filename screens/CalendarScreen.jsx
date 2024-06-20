@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Pressable, Image, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  Image,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from "react-native";
 import TitleCard from "../components/ui/TitleCard";
 import Section from "../components/ui/Section";
 import MonthModal from "../components/modal/MonthModal";
@@ -13,7 +20,7 @@ const CalendarScreen = () => {
 
   const [dateArr, setDateArr] = useState([]);
   const [year, setYear] = useState(nowYear);
-  const [month, setMonth] = useState(nowMonth);
+  const [month, setMonth] = useState(nowMonth + 1);
 
   const [isDateModal, setIsDateModal] = useState(false);
 
@@ -25,11 +32,20 @@ const CalendarScreen = () => {
     setIsDateModal(false);
   };
 
-  const confirmMonthHandler = () => {
-    console.log("confirm");
+  const confirmMonthHandler = value => {
+    const { year, month } = value;
+    setYear(year);
+    setMonth(month);
+    setIsDateModal(false);
   };
 
-  const makeCalendar = (year, monthIdx) => {
+  const clickDateSquareHandler = date => {
+    const { date: clickedDate } = date;
+    // navigation하면서 params로 날짜를 넘겨줘야됨
+  };
+
+  const makeCalendar = (year, month) => {
+    const monthIdx = month - 1;
     let preMonth = [];
     let nextMonth = [];
     let thisMonth = [];
@@ -40,21 +56,23 @@ const CalendarScreen = () => {
     const preLastDate = preMonthLast.getDate();
     const thisLastDate = thisMonthLast.getDate();
 
-    const generateMonthArray = (start, end) => {
+    const generateMonthArray = (start, end, isCurrentMonth) => {
       const result = [];
       for (let i = start; i <= end; i++) {
-        result.push({ date: i, colors: [] });
+        result.push({ date: i, colors: [], isCurrentMonth });
       }
       return result;
     };
 
     if (preLastDay !== 0) {
       preMonth.push(
-        ...generateMonthArray(preLastDate - preLastDay + 1, preLastDate),
+        ...generateMonthArray(preLastDate - preLastDay + 1, preLastDate, false),
       );
-      nextMonth.push(...generateMonthArray(1, thisLastDate - thisLastDay));
+      nextMonth.push(
+        ...generateMonthArray(1, thisLastDate - thisLastDay, false),
+      );
     }
-    thisMonth.push(...generateMonthArray(1, thisLastDate));
+    thisMonth.push(...generateMonthArray(1, thisLastDate, true));
 
     const calendarNums = [...preMonth, ...thisMonth, ...nextMonth];
     let weekArr = [];
@@ -65,8 +83,8 @@ const CalendarScreen = () => {
   };
 
   useEffect(() => {
-    setDateArr(makeCalendar(nowYear, nowMonth));
-  }, [nowYear, nowMonth]);
+    setDateArr(makeCalendar(year, month));
+  }, [year, month]);
   return (
     <>
       <Section>
@@ -74,7 +92,7 @@ const CalendarScreen = () => {
           <Pressable style={styles.dropDownBtn} onPress={openModalHandler}>
             <View style={styles.dropDownVal}>
               <Text style={styles.year}>{year}</Text>
-              <Text style={styles.month}>{month + 1}월</Text>
+              <Text style={styles.month}>{month}월</Text>
             </View>
             <Image
               source={require("../assets/images/arrow-down.png")}
@@ -95,14 +113,27 @@ const CalendarScreen = () => {
               dateArr.map((w, i) => (
                 <View style={styles.weekContainer} key={i}>
                   {w.map((date, idx) => (
-                    <View style={styles.daySquare} key={idx}>
-                      <Text style={styles.dayNum}>{date.date}</Text>
-                      <View style={styles.circleContainer}>
-                        {date.colors.map((color, cIdx) => (
-                          <View style={styles.circle} key={cIdx}></View>
-                        ))}
+                    <TouchableWithoutFeedback
+                      style={styles.daySquare}
+                      key={idx}
+                      onPress={() => clickDateSquareHandler(date)}
+                    >
+                      <View style={styles.daySquare}>
+                        <Text
+                          style={[
+                            styles.dayNum,
+                            !date.isCurrentMonth && styles.notCurrentMonth,
+                          ]}
+                        >
+                          {date.date}
+                        </Text>
+                        <View style={styles.circleContainer}>
+                          {date.colors.map((color, cIdx) => (
+                            <View style={styles.circle} key={cIdx}></View>
+                          ))}
+                        </View>
                       </View>
-                    </View>
+                    </TouchableWithoutFeedback>
                   ))}
                 </View>
               ))}
@@ -171,6 +202,9 @@ const styles = StyleSheet.create({
     textAlign: "right",
     fontSize: 16,
     fontWeight: "700",
+  },
+  notCurrentMonth: {
+    color: "#bbb",
   },
   circleContainer: {
     flexDirection: "row",

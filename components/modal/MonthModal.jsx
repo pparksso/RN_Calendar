@@ -31,6 +31,8 @@ const MonthModal = props => {
 
   const years = generateYears();
   const months = Array.from({ length: 12 }, (_, i) => i + 1);
+  const scrollYears = ["", ...years, ""];
+  const scrollMonths = ["", ...months, ""];
 
   const renderPickerItem = (item, isSelected) => (
     <Text style={[styles.pickerItem, isSelected && styles.selectedItem]}>
@@ -43,6 +45,10 @@ const MonthModal = props => {
 
   const handleMonthChange = month => {
     setSelectedMonth(month);
+  };
+
+  const confirmHandler = () => {
+    confirm({ year: selectedYear, month: selectedMonth });
   };
 
   useEffect(() => {
@@ -74,13 +80,15 @@ const MonthModal = props => {
             onScroll={event => {
               const yOffset = event.nativeEvent.contentOffset.y;
               const index = Math.round(yOffset / styles.pickerItem.height) + 1;
-              if (index >= 0 && index < years.length)
-                handleYearChange(years[index]);
+              if (index >= 0 && index < scrollYears.length)
+                handleYearChange(scrollYears[index]);
             }}
             snapToInterval={styles.pickerItem.height}
             decelerationRate="fast"
           >
-            {years.map(year => renderPickerItem(year, year === selectedYear))}
+            {scrollYears.map(year =>
+              renderPickerItem(year, year === selectedYear),
+            )}
           </ScrollView>
           <ScrollView
             ref={monthScrollRef}
@@ -90,19 +98,21 @@ const MonthModal = props => {
             onScroll={event => {
               const yOffset = event.nativeEvent.contentOffset.y;
               const index = Math.round(yOffset / styles.pickerItem.height) + 1;
-              handleMonthChange(months[index]);
+              if (index >= 0 && index < scrollMonths.length) {
+                handleMonthChange(scrollMonths[index]);
+              }
             }}
             snapToInterval={styles.pickerItem.height}
             decelerationRate="fast"
           >
-            {months.map(month =>
+            {scrollMonths.map(month =>
               renderPickerItem(month, month === selectedMonth),
             )}
           </ScrollView>
         </View>
         <ModalBtnLayout
           confirmMsg="Confirm"
-          confirmFunc={confirm}
+          confirmFunc={confirmHandler}
           closeFunc={close}
         />
       </ModalCard>

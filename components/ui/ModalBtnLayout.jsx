@@ -6,11 +6,11 @@ const ModalBtnLayout = props => {
 
   return (
     <View style={styles.btnBox}>
-      <Pressable style={styles.btn} onPress={confirmFunc}>
-        <Text style={styles.btnTxt}>{confirmMsg}</Text>
-      </Pressable>
       <Pressable style={styles.btn} onPress={closeFunc}>
         <Text style={styles.btnTxt}>Cancle</Text>
+      </Pressable>
+      <Pressable style={styles.btn} onPress={confirmFunc}>
+        <Text style={styles.btnTxt}>{confirmMsg}</Text>
       </Pressable>
     </View>
   );
