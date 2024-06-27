@@ -20,6 +20,10 @@ const ListScreen = () => {
     setIsModal(true);
   };
 
+  const saveHandler = () => {
+    // console.log("save");
+  };
+
   const closeModalHandler = () => {
     setIsModal(false);
   };
@@ -59,7 +63,11 @@ const ListScreen = () => {
           <Item />
         </View>
       </Section>
-      <AddModal visible={isModal} close={closeModalHandler} />
+      <AddModal
+        visible={isModal}
+        save={saveHandler}
+        close={closeModalHandler}
+      />
     </>
   );
 };
