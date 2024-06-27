@@ -1,5 +1,12 @@
-import React, { useState } from "react";
-import { Modal, Pressable, StyleSheet, TextInput, View } from "react-native";
+import React from "react";
+import {
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import ModalCard from "../ui/ModalCard";
 import ModalBtnLayout from "../ui/ModalBtnLayout";
 import { storage } from "../../lib/mmkv";
@@ -38,29 +45,19 @@ const AddModal = props => {
   return (
     <Modal visible={visible} animationType="fade" transparent={true}>
       <ModalCard>
-        <TextInput
-          style={styles.input}
-          autoFocus={true}
-          maxLength={16}
-          onChangeText={changeText}
-        />
+        <TextInput style={styles.input} autoFocus={true} maxLength={16} />
         <View style={styles.colorBox}>
           {colors.map((color, idx) => (
             <Pressable
               key={idx}
-              style={[
-                styles.color,
-                { backgroundColor: color },
-                selectedColor === color && styles.selectedColor,
-              ]}
-              onPress={() => setSelectedColor(color)}
+              style={[styles.color, { backgroundColor: color }]}
             />
           ))}
         </View>
         <ModalBtnLayout
           confirmMsg="Save"
-          confirmFunc={saveHandler}
-          closeFunc={closeHandler}
+          confirmFunc={save}
+          closeFunc={close}
         />
       </ModalCard>
     </Modal>
@@ -95,9 +92,6 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderRadius: 100,
-  },
-  selectedColor: {
-    borderWidth: 1,
   },
 });
 
