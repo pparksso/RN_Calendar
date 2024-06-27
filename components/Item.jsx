@@ -2,17 +2,17 @@ import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 const Item = props => {
-  const { checked } = props;
+  const { item } = props;
 
   return (
     <View style={styles.itemContainer}>
       <Pressable style={styles.labelContainer}>
-        <View style={[styles.checkBox, checked && styles.checkedBox]}>
-          {checked && <Text style={styles.checkMark}>✓</Text>}
+        <View style={[styles.checkBox, item.checked && styles.checkedBox]}>
+          {item.checked && <Text style={styles.checkMark}>✓</Text>}
         </View>
-        <Text style={styles.label}>수영수영수영수영영수영</Text>
+        <Text style={styles.label}>{item.text}</Text>
       </Pressable>
-      <View style={styles.color}></View>
+      <View style={[styles.color, { backgroundColor: item.color }]}></View>
     </View>
   );
 };
@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   color: {
-    backgroundColor: "#000",
     width: 20,
     height: 20,
     borderRadius: 100,

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Image, Pressable, Text, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Section from "../components/ui/Section";
 import TitleCard from "../components/ui/TitleCard";
 import Item from "../components/Item";
 import AddModal from "../components/modal/AddModal";
-import { useNavigation } from "@react-navigation/native";
 
 const ListScreen = () => {
   const navigation = useNavigation();
@@ -15,18 +16,34 @@ const ListScreen = () => {
   const date = today.getDate();
 
   const [isModal, setIsModal] = useState(false);
+  const [list, setList] = useState([]);
 
   const openModalHandler = () => {
     setIsModal(true);
   };
 
-  const saveHandler = () => {
-    // console.log("save");
-  };
-
   const closeModalHandler = () => {
     setIsModal(false);
   };
+
+  const formatToday = () => {
+    return `${year}${month.toString().padStart(2, "0")}${date
+      .toString()
+      .padStart(2, "0")}`;
+  };
+
+  useEffect(() => {
+    const getData = async () => {
+      const storageData = JSON.parse(await AsyncStorage.getItem(formatToday()));
+      if (storageData) {
+        setList(storageData);
+      } else {
+        setList([]);
+      }
+      // await AsyncStorage.clear();
+    };
+    if (!isModal) getData();
+  }, [isModal]);
 
   const goCalendarHandler = () => {
     navigation.navigate("Calendar", {
@@ -59,14 +76,15 @@ const ListScreen = () => {
           </View>
         </TitleCard>
         <View style={styles.listContainer}>
-          <Item checked={true} />
-          <Item />
+          {list.map((item, idx) => (
+            <Item key={idx} item={item} />
+          ))}
         </View>
       </Section>
       <AddModal
         visible={isModal}
-        save={saveHandler}
         close={closeModalHandler}
+        today={formatToday()}
       />
     </>
   );
