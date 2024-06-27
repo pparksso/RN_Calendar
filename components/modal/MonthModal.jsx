@@ -35,7 +35,10 @@ const MonthModal = props => {
   const scrollMonths = ["", ...months, ""];
 
   const renderPickerItem = (item, isSelected) => (
-    <Text style={[styles.pickerItem, isSelected && styles.selectedItem]}>
+    <Text
+      style={[styles.pickerItem, isSelected && styles.selectedItem]}
+      key={item}
+    >
       {item}
     </Text>
   );
