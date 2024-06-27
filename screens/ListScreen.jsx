@@ -16,10 +16,6 @@ const ListScreen = () => {
 
   const [isModal, setIsModal] = useState(false);
 
-  const formatToday = `${year}.${month.toString().padStart(2, "0")}.${date
-    .toString()
-    .padStart(2, "0")}`;
-
   const openModalHandler = () => {
     setIsModal(true);
   };
@@ -51,7 +47,11 @@ const ListScreen = () => {
                 source={require("../assets/images/calendar.png")}
               />
             </Pressable>
-            <Text style={styles.dateText}>{formatToday}</Text>
+            <Text style={styles.dateText}>
+              {`${year}.${month.toString().padStart(2, "0")}.${date
+                .toString()
+                .padStart(2, "0")}`}
+            </Text>
           </View>
         </TitleCard>
         <View style={styles.listContainer}>
@@ -59,11 +59,7 @@ const ListScreen = () => {
           <Item />
         </View>
       </Section>
-      <AddModal
-        visible={isModal}
-        close={closeModalHandler}
-        today={formatToday}
-      />
+      <AddModal visible={isModal} close={closeModalHandler} />
     </>
   );
 };
