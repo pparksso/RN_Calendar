@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Modal, Pressable, StyleSheet, TextInput, View } from "react-native";
 import ModalCard from "../ui/ModalCard";
 import ModalBtnLayout from "../ui/ModalBtnLayout";
+import { storage } from "../../lib/mmkv";
 
 const colors = [
   "#FF6347", // 토마토 (빨강)
@@ -14,17 +15,19 @@ const colors = [
 ];
 
 const AddModal = props => {
-  const { visible, close } = props;
+  const { visible, close, today } = props;
 
   const [text, setText] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
 
   const saveHandler = () => {
-    console.log(text, selectedColor);
+    console.log(today);
+    // const savedData = storage.getString(today);
   };
 
   const closeHandler = () => {
     setSelectedColor("");
+    setText("");
     close();
   };
 
