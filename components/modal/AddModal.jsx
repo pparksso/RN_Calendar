@@ -1,12 +1,5 @@
-import React from "react";
-import {
-  Modal,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from "react-native";
+import React, { useState } from "react";
+import { Modal, Pressable, StyleSheet, TextInput, View } from "react-native";
 import ModalCard from "../ui/ModalCard";
 import ModalBtnLayout from "../ui/ModalBtnLayout";
 
@@ -21,23 +14,50 @@ const colors = [
 ];
 
 const AddModal = props => {
-  const { visible, close, save } = props;
+  const { visible, close } = props;
+
+  const [text, setText] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
+
+  const saveHandler = () => {
+    console.log(text, selectedColor);
+  };
+
+  const closeHandler = () => {
+    setSelectedColor("");
+    close();
+  };
+
+  const changeText = value => {
+    setText(value);
+  };
+
   return (
     <Modal visible={visible} animationType="fade" transparent={true}>
       <ModalCard>
-        <TextInput style={styles.input} autoFocus={true} maxLength={16} />
+        <TextInput
+          style={styles.input}
+          autoFocus={true}
+          maxLength={16}
+          onChangeText={changeText}
+        />
         <View style={styles.colorBox}>
           {colors.map((color, idx) => (
             <Pressable
               key={idx}
-              style={[styles.color, { backgroundColor: color }]}
+              style={[
+                styles.color,
+                { backgroundColor: color },
+                selectedColor === color && styles.selectedColor,
+              ]}
+              onPress={() => setSelectedColor(color)}
             />
           ))}
         </View>
         <ModalBtnLayout
           confirmMsg="Save"
-          confirmFunc={save}
-          closeFunc={close}
+          confirmFunc={saveHandler}
+          closeFunc={closeHandler}
         />
       </ModalCard>
     </Modal>
@@ -72,6 +92,9 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     borderRadius: 100,
+  },
+  selectedColor: {
+    borderWidth: 1,
   },
 });
 
