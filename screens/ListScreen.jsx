@@ -32,18 +32,28 @@ const ListScreen = () => {
       .padStart(2, "0")}`;
   };
 
-  useEffect(() => {
-    const getData = async () => {
+  const getData = async () => {
+    const storageData = JSON.parse(await AsyncStorage.getItem(formatToday()));
+    if (storageData) {
+      setList(storageData);
+    } else {
+      setList([]);
+    }
+  };
+
+  const saveHandler = async obj => {
+    const saveItem = async () => {
       const storageData = JSON.parse(await AsyncStorage.getItem(formatToday()));
-      if (storageData) {
-        setList(storageData);
-      } else {
-        setList([]);
-      }
-      // await AsyncStorage.clear();
+      let arr = storageData ? [...storageData, obj] : [obj];
+      await AsyncStorage.setItem(formatToday(), JSON.stringify(arr));
     };
-    if (!isModal) getData();
-  }, [isModal]);
+    await saveItem();
+    await getData();
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const goCalendarHandler = () => {
     navigation.navigate("Calendar", {
@@ -84,7 +94,7 @@ const ListScreen = () => {
       <AddModal
         visible={isModal}
         close={closeModalHandler}
-        today={formatToday()}
+        save={saveHandler}
       />
     </>
   );

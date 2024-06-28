@@ -15,7 +15,7 @@ const colors = [
 ];
 
 const AddModal = props => {
-  const { visible, close, today } = props;
+  const { visible, close, save } = props;
 
   const [text, setText] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
@@ -34,20 +34,14 @@ const AddModal = props => {
         color: selectedColor,
         checked: false,
       };
-      const getItem = async () => {
-        const storageData = JSON.parse(await AsyncStorage.getItem(today));
-        let arr = storageData ? [...storageData, obj] : [obj];
-        await AsyncStorage.setItem(today, JSON.stringify(arr));
-      };
-      getItem();
-      clearHandler();
-      close();
+      save(obj);
+      closeHandler();
     }
   };
 
   const closeHandler = () => {
-    close();
     clearHandler();
+    close();
   };
 
   const changeText = value => {
