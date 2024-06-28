@@ -81,6 +81,14 @@ const ListScreen = () => {
     await getData();
   };
 
+  const deleteHandler = async idx => {
+    const datas = await storage();
+    let arr = [...datas];
+    arr.splice(idx, 1);
+    await AsyncStorage.setItem(formatToday(), JSON.stringify(arr));
+    await getData();
+  };
+
   useEffect(() => {
     getData();
   }, []);
@@ -128,6 +136,7 @@ const ListScreen = () => {
               item={item}
               click={() => editModalHandler(idx)}
               isCheck={() => checkHaldler(idx)}
+              isDelete={() => deleteHandler(idx)}
             />
           ))}
         </View>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 const Item = props => {
-  const { item, click, isCheck } = props;
+  const { item, click, isCheck, isDelete } = props;
   const [checked, setChecked] = useState(false);
 
   const checkHandler = () => {
@@ -22,10 +22,15 @@ const Item = props => {
       >
         {checked && <Text style={styles.checkMark}>✓</Text>}
       </Pressable>
-      <Pressable style={styles.labelContainer} onPress={click}>
-        <Text style={styles.label}>{item.text}</Text>
-        <View style={[styles.color, { backgroundColor: item.color }]}></View>
-      </Pressable>
+      <View style={styles.labelContainer}>
+        <Pressable onPress={click} style={styles.valueContaier}>
+          <Text style={styles.label}>{item.text}</Text>
+          <View style={[styles.color, { backgroundColor: item.color }]}></View>
+        </Pressable>
+        <Pressable onPress={isDelete}>
+          <Text style={styles.delText}>X</Text>
+        </Pressable>
+      </View>
     </View>
   );
 };
@@ -37,10 +42,19 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   labelContainer: {
-    flexDirection: "row",
     flex: 1,
+    flexDirection: "row",
     alignItems: "center",
+  },
+  valueContaier: {
+    flex: 1,
+    flexDirection: "row",
     justifyContent: "space-between",
+    marginRight: 5,
+  },
+  delText: {
+    fontSize: 16,
+    fontWeight: "bold",
   },
   checkBox: {
     width: 20,
