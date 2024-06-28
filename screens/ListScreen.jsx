@@ -73,6 +73,14 @@ const ListScreen = () => {
     openModalHandler();
   };
 
+  const checkHaldler = async idx => {
+    const datas = await storage();
+    let arr = [...datas];
+    arr[idx].checked = !arr[idx].checked;
+    await AsyncStorage.setItem(formatToday(), JSON.stringify(arr));
+    await getData();
+  };
+
   useEffect(() => {
     getData();
   }, []);
@@ -115,7 +123,12 @@ const ListScreen = () => {
         </TitleCard>
         <View style={styles.listContainer}>
           {list.map((item, idx) => (
-            <Item key={idx} item={item} click={() => editModalHandler(idx)} />
+            <Item
+              key={idx}
+              item={item}
+              click={() => editModalHandler(idx)}
+              isCheck={() => checkHaldler(idx)}
+            />
           ))}
         </View>
       </Section>

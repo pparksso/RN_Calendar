@@ -1,14 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 const Item = props => {
-  const { item, click } = props;
+  const { item, click, isCheck } = props;
+  const [checked, setChecked] = useState(false);
+
+  const checkHandler = () => {
+    isCheck();
+  };
+
+  useEffect(() => {
+    if (item.checked) setChecked(true);
+    else setChecked(false);
+  }, [item]);
 
   return (
     <View style={styles.itemContainer}>
-      <View style={[styles.checkBox, item.checked && styles.checkedBox]}>
-        {item.checked && <Text style={styles.checkMark}>✓</Text>}
-      </View>
+      <Pressable
+        style={[styles.checkBox, checked && styles.checkedBox]}
+        onPress={checkHandler}
+      >
+        {checked && <Text style={styles.checkMark}>✓</Text>}
+      </Pressable>
       <Pressable style={styles.labelContainer} onPress={click}>
         <Text style={styles.label}>{item.text}</Text>
         <View style={[styles.color, { backgroundColor: item.color }]}></View>
