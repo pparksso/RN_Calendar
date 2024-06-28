@@ -6,13 +6,13 @@ const Item = props => {
 
   return (
     <View style={styles.itemContainer}>
+      <View style={[styles.checkBox, item.checked && styles.checkedBox]}>
+        {item.checked && <Text style={styles.checkMark}>✓</Text>}
+      </View>
       <Pressable style={styles.labelContainer} onPress={click}>
-        <View style={[styles.checkBox, item.checked && styles.checkedBox]}>
-          {item.checked && <Text style={styles.checkMark}>✓</Text>}
-        </View>
         <Text style={styles.label}>{item.text}</Text>
+        <View style={[styles.color, { backgroundColor: item.color }]}></View>
       </Pressable>
-      <View style={[styles.color, { backgroundColor: item.color }]}></View>
     </View>
   );
 };
@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flex: 1,
     alignItems: "center",
+    justifyContent: "space-between",
   },
   checkBox: {
     width: 20,

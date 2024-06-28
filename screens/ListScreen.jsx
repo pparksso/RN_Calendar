@@ -18,6 +18,7 @@ const ListScreen = () => {
   const [isModal, setIsModal] = useState(false);
   const [list, setList] = useState([]);
   const [savedItem, setSavedItem] = useState({});
+  const [selectNo, setSelectNo] = useState(-1);
 
   const openModalHandler = () => {
     setIsModal(true);
@@ -47,19 +48,27 @@ const ListScreen = () => {
     }
   };
 
-  const saveHandler = async obj => {
+  const saveHandler = async (obj, msg) => {
+    const storageData = await storage();
     const saveItem = async () => {
-      const storageData = await storage();
       let arr = storageData ? [...storageData, obj] : [obj];
       await AsyncStorage.setItem(formatToday(), JSON.stringify(arr));
     };
-    await saveItem();
+    const editItem = async () => {
+      let arr = [...storageData];
+      arr.splice(selectNo, 1, obj);
+      await AsyncStorage.setItem(formatToday(), JSON.stringify(arr));
+    };
+    if (msg === "save") await saveItem();
+    else await editItem();
+
     await getData();
   };
 
   const editModalHandler = async idx => {
     const datas = await storage();
     const data = datas[idx];
+    setSelectNo(idx);
     setSavedItem(data);
     openModalHandler();
   };

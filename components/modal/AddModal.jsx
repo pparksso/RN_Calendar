@@ -34,9 +34,9 @@ const AddModal = props => {
       const obj = {
         text,
         color: selectedColor,
-        checked: false,
+        checked: savedObj.checked ? savedObj.checked : false,
       };
-      save(obj);
+      save(obj, confirmMsg);
       closeHandler();
     }
   };
