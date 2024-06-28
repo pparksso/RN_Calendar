@@ -95,7 +95,7 @@ const ListScreen = () => {
 
   const goCalendarHandler = () => {
     navigation.navigate("Calendar", {
-      // params 전달
+      time: `${year}${month.toString().padStart(2, "0")}`,
     });
   };
 

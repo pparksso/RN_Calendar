@@ -7,13 +7,16 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import TitleCard from "../components/ui/TitleCard";
 import Section from "../components/ui/Section";
 import MonthModal from "../components/modal/MonthModal";
 
 const weekly = ["월", "화", "수", "목", "금", "토", "일"];
 
-const CalendarScreen = () => {
+const CalendarScreen = ({ route }) => {
+  const { time } = route.params;
+
   const today = new Date();
   const nowYear = today.getFullYear();
   const nowMonth = today.getMonth();
@@ -21,6 +24,10 @@ const CalendarScreen = () => {
   const [dateArr, setDateArr] = useState([]);
   const [year, setYear] = useState(nowYear);
   const [month, setMonth] = useState(nowMonth + 1);
+
+  const [now, setNow] = useState(time);
+
+  const [allData, setAllData] = useState([]);
 
   const [isDateModal, setIsDateModal] = useState(false);
 
@@ -82,9 +89,29 @@ const CalendarScreen = () => {
     return weekArr;
   };
 
+  const getAllData = async () => {
+    const allKeys = await AsyncStorage.getAllKeys();
+    const filteredKey = allKeys.filter(key => key.startsWith(now));
+
+    const allData = await Promise.all(
+      filteredKey.map(async key => {
+        const data = JSON.parse(await AsyncStorage.getItem(key));
+        return data;
+      }),
+    );
+
+    const mergedData = [].concat(...allData);
+    setAllData(mergedData);
+  };
+
   useEffect(() => {
     setDateArr(makeCalendar(year, month));
   }, [year, month]);
+
+  useEffect(() => {
+    getAllData();
+  }, []);
+
   return (
     <>
       <Section>
