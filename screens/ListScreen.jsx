@@ -17,6 +17,7 @@ const ListScreen = () => {
 
   const [isModal, setIsModal] = useState(false);
   const [list, setList] = useState([]);
+  const [savedItem, setSavedItem] = useState({});
 
   const openModalHandler = () => {
     setIsModal(true);
@@ -32,10 +33,15 @@ const ListScreen = () => {
       .padStart(2, "0")}`;
   };
 
-  const getData = async () => {
+  const storage = async () => {
     const storageData = JSON.parse(await AsyncStorage.getItem(formatToday()));
-    if (storageData) {
-      setList(storageData);
+    return storageData;
+  };
+
+  const getData = async () => {
+    const data = await storage();
+    if (data) {
+      setList(data);
     } else {
       setList([]);
     }
@@ -43,12 +49,19 @@ const ListScreen = () => {
 
   const saveHandler = async obj => {
     const saveItem = async () => {
-      const storageData = JSON.parse(await AsyncStorage.getItem(formatToday()));
+      const storageData = await storage();
       let arr = storageData ? [...storageData, obj] : [obj];
       await AsyncStorage.setItem(formatToday(), JSON.stringify(arr));
     };
     await saveItem();
     await getData();
+  };
+
+  const editModalHandler = async idx => {
+    const datas = await storage();
+    const data = datas[idx];
+    setSavedItem(data);
+    openModalHandler();
   };
 
   useEffect(() => {
@@ -65,7 +78,13 @@ const ListScreen = () => {
     <>
       <Section>
         <TitleCard>
-          <Pressable style={styles.addBtn} onPress={openModalHandler}>
+          <Pressable
+            style={styles.addBtn}
+            onPress={() => {
+              setSavedItem({});
+              openModalHandler();
+            }}
+          >
             <Image
               style={styles.addImg}
               source={require("../assets/images/plus.png")}
@@ -87,7 +106,7 @@ const ListScreen = () => {
         </TitleCard>
         <View style={styles.listContainer}>
           {list.map((item, idx) => (
-            <Item key={idx} item={item} />
+            <Item key={idx} item={item} click={() => editModalHandler(idx)} />
           ))}
         </View>
       </Section>
@@ -95,6 +114,7 @@ const ListScreen = () => {
         visible={isModal}
         close={closeModalHandler}
         save={saveHandler}
+        savedObj={savedItem}
       />
     </>
   );

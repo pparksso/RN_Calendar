@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Pressable, StyleSheet, TextInput, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ModalCard from "../ui/ModalCard";
@@ -15,10 +15,12 @@ const colors = [
 ];
 
 const AddModal = props => {
-  const { visible, close, save } = props;
+  const { visible, close, save, savedObj } = props;
 
   const [text, setText] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
+
+  const [confirmMsg, setConfirmMsg] = useState("save");
 
   const clearHandler = () => {
     setText("");
@@ -47,6 +49,16 @@ const AddModal = props => {
   const changeText = value => {
     setText(value);
   };
+
+  useEffect(() => {
+    setText(savedObj.text);
+    setSelectedColor(savedObj.color);
+    setConfirmMsg("Edit");
+    if (!savedObj.color) {
+      setConfirmMsg("save");
+    }
+  }, [savedObj]);
+
   return (
     <Modal visible={visible} animationType="fade" transparent={true}>
       <ModalCard>
@@ -55,6 +67,7 @@ const AddModal = props => {
           autoFocus={true}
           maxLength={16}
           onChangeText={changeText}
+          value={text}
         />
         <View style={styles.colorBox}>
           {colors.map((color, idx) => (
@@ -70,7 +83,7 @@ const AddModal = props => {
           ))}
         </View>
         <ModalBtnLayout
-          confirmMsg="Save"
+          confirmMsg={confirmMsg}
           confirmFunc={saveHandler}
           closeFunc={closeHandler}
         />

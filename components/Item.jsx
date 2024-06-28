@@ -2,11 +2,11 @@ import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 const Item = props => {
-  const { item } = props;
+  const { item, click } = props;
 
   return (
     <View style={styles.itemContainer}>
-      <Pressable style={styles.labelContainer}>
+      <Pressable style={styles.labelContainer} onPress={click}>
         <View style={[styles.checkBox, item.checked && styles.checkedBox]}>
           {item.checked && <Text style={styles.checkMark}>✓</Text>}
         </View>
